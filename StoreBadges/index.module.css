@@ -1,0 +1,55 @@
+.reference {
+    text-decoration: none;
+}
+
+/* App Store */
+
+.appStore {
+    font-family: -apple-system, sans-serif;
+    color: white;
+    padding-left: 33px;
+    padding-right: 12px
+}
+
+.title, .message {
+    padding: 0;
+    margin: 0;
+}
+
+.appStore .title {
+    font-size: 17px;
+    line-height: 17px;
+    font-weight: 500;
+    letter-spacing: -0.23px;
+}
+
+.appStore .message {
+    font-size: 9px;
+    margin-top: 5px;
+    padding-left: 1px;
+    line-height: 11px;
+    font-weight: 500;
+    letter-spacing: -0.4px;
+}
+
+/* Google Play */
+
+.googlePlay {
+    color: white;
+    font-family: Roboto, -apple-system, sans-serif;
+    padding-left: 40px;
+    padding-right: 8px;
+}
+
+.googlePlay .title {
+    font-size: 17px;
+    line-height: 17px;
+    letter-spacing: -0.84px;
+}
+
+.googlePlay .message {
+    font-size: 9px;
+    letter-spacing: -0.15px;
+    line-height: 11px;
+    margin-top: 5px;
+}
