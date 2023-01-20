@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react"
-import { LocaleWithCode } from "../Localization"
+import { currentLocale } from "../Localization"
 
-const LocaleContext = createContext(LocaleWithCode("en"))
+const LocaleContext = createContext(currentLocale())
 export const useLocale = () => useContext(LocaleContext)
 
 export default LocaleContext

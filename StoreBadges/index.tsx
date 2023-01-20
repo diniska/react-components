@@ -8,7 +8,6 @@ import notSelectable from "../Styles/notSelectable.module.css"
 import LocalizationsLoaderContext from "../Context/LocalizationsLoaderContext"
 import { Locale, LocalizationsLoader } from "../Localization"
 import * as loaders from "./Data"
-import LocaleContext from "../Context/LocaleContext"
 
 interface ImageSlice {
     leading: number,
