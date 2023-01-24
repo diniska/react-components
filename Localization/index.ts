@@ -70,7 +70,6 @@ export const localeName = (localeCode: LocaleCode) => localesNames[localeCode]
 //
 // export const localizations = async (locale: Locale) => {
 //     const loaderKey = locale.code as keyof typeof loaders
-   
 //     const file = await (loaders[loaderKey]())
 //     return file.default as { [key: string]: string }
 // }
