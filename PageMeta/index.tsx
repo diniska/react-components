@@ -34,7 +34,10 @@ export interface PageMetaProps {
     twitterCard?: TwitterCardMetaProps
 
     canonicalURL?: string
-    iosSmartbannerAppId?: string
+    iosSmartbanner: {
+        appId: string
+        argument?: string
+    }
 }
 
 const PageMeta = (meta: PageMetaProps) => {
@@ -58,9 +61,15 @@ const PageMetaHelmet = (meta: PageMetaProps) => <Helmet>
     {meta.canonicalURL &&
         <link rel="canonical" href={meta.canonicalURL} />
     }
-    {meta.iosSmartbannerAppId &&
+    {meta.iosSmartbanner &&
         //https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/PromotingAppswithAppBanners/PromotingAppswithAppBanners.html
-        <meta name="apple-itunes-app" content={"app-id=" + meta.iosSmartbannerAppId} />
+        <meta 
+            name="apple-itunes-app" 
+            content={
+                "app-id=" + meta.iosSmartbanner.appId 
+                + (meta.iosSmartbanner.argument && (", app-argument=" + meta.iosSmartbanner.argument) || "") 
+            } 
+        />
     }
     {meta.twitterCard && <meta name="twitter:card" content="summary" />}
     {meta.twitterCard && <meta name="twitter:title" content={meta.title} />}
