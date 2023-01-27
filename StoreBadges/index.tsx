@@ -36,6 +36,7 @@ const borderParameters = (slice: ImageSlice) => `${slice.top} ${slice.trailing} 
 const StoreBadge = ({ background, slice, url, ...props }: StoreBadgeProps & BoxExtendedProps) => <a
     href={url}
     className={[styles.reference, notSelectable.notSelectable].join(" ")}
+    target="_blank"
 >
     <LocalizationsLoaderContext.Provider value={localizationsLoader}>
         <Box
