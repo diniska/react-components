@@ -67,7 +67,7 @@ const PageMetaHelmet = (meta: PageMetaProps) => <Helmet>
             name="apple-itunes-app" 
             content={
                 "app-id=" + meta.iosSmartbanner.appId 
-                + (meta.iosSmartbanner.argument && (", app-argument=" + meta.iosSmartbanner.argument) || "") 
+                + ((meta.iosSmartbanner.argument && (", app-argument=" + meta.iosSmartbanner.argument)) || "") 
             } 
         />
     }
