@@ -5,7 +5,6 @@ const useLoadedData = <T>(load: () => Promise<T>, key = "") => {
 
     useEffect(() => {
         let mounted = true
-        console.info("Loading data for", key)
         
         load().then(data => {
             if (mounted) {
