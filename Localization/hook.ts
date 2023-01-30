@@ -1,5 +1,5 @@
 import { useLocale } from "../Context/LocaleContext"
-import useLoadedData from "../Hooks/Loader"
+import { useLoadedDataWithDOMStorage } from "../Hooks/Loader"
 import { useLocalizationsLoader } from "../Context/LocalizationsLoaderContext"
 import { createContext, useCallback, useContext } from "react"
 import { Locale } from "."
@@ -22,13 +22,11 @@ export const useMultipleLocalizations = <T>(
     const locale = useLocale()
     const loader = useLocalizationsLoader()
 
-    const data = useLoadedData(
-        useCallback(
-            async () => loader === undefined ? {} : await loader.load(locale),
-            [loader, locale]
-        ),
-        `${loader?.key}_${locale.code}`
+    const callback = useCallback(
+        async () => loader === undefined ? {} : await loader.load(locale),
+        [loader, locale]
     )
+    const data = useLoadedDataWithDOMStorage(callback,`${loader?.key}_${locale.code}`)
     
     return data ? keys.map(key => data[key]) : keys.map(_ => placeholder)
 }
