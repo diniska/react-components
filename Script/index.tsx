@@ -1,38 +1,70 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 
 export interface ScriptProps {
-    type?: string,
-    async?: boolean,
-    charset?: string,
-    src: string,
+    type?: string
+    async?: boolean
+    charset?: string
+    src: string
+    /// whether tp keep the script in the html after the component is unmounted
+    keep?: boolean
     onLoad?: () => void
 }
 
 // Ensures that there is only one such script in html
 // https://stackoverflow.com/a/34425083/886703
-const Script = (props: ScriptProps) => {
+const Script = ({src, onLoad, ...props}: ScriptProps) => {
     const type = props.type || "text/javascript"
+
+    const [scriptAdded, setScriptAdded] = useState(false)
+
     useEffect(() => {
-        const script = document.getElementById(props.src) as HTMLScriptElement || document.createElement("script")
-        script.id = props.src
-        script.type = type
-        if (props.async) {
-            script.async = props.async
-        }
-        if (props.charset) {
-            script.charset = props.charset
-        }
-        script.src = props.src;
-        document.body.appendChild(script)
+        if (scriptAdded) { return () => {} }
 
-        const onLoad = props.onLoad
-        if (onLoad) {
-            script.onload = onLoad
+        const id = "shared-components-script-" + src
+
+        const updateScript = (script: HTMLScriptElement) => {
+            script.id = id
+            script.type = type
+    
+            if (props.async) {
+                script.async = props.async
+            }
+    
+            if (props.charset) {
+                script.charset = props.charset
+            }
+    
+            if (script.src !== src) {
+                script.src = src
+            }
+    
+            if (onLoad) {
+                script.onload = onLoad
+            }
         }
 
-        return () => { document.body.removeChild(script) }
-    }, [props.src, type, props.charset, props.async, props.onLoad])
+        let script = document.getElementById(id) as HTMLScriptElement
+
+        if (script === null) {
+            console.info("Adding script", src)
+            script = document.createElement("script")
+            document.body.appendChild(script)
+        }
+
+        setScriptAdded(true)
+
+        updateScript(script)
+
+        if (props.keep === true) {
+            return () => {}
+        } else {
+            return () => { 
+                console.info("Removing script", src)
+                document.body.removeChild(script)
+            }
+        }
+    }, [src, type, props.charset, props.async, onLoad, props.keep, scriptAdded, setScriptAdded])
     return <></>
 }
 
