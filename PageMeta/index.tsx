@@ -1,5 +1,6 @@
 import React from 'react'
 import Helmet from "react-helmet"
+import { LocaleCode } from '../Localization'
 
 /// https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/markup
 export interface TwitterCardMetaProps {
@@ -24,12 +25,14 @@ export interface PageMetaProps {
     title: string
     description: string
     keywords: string
+    locale?: LocaleCode
 
     facebookUrl: string
     facebookTitle: string
     facebookDescription: string
     facebookImage: string
     facebookAppId?: string
+    facebookType?: string
 
     twitterCard?: TwitterCardMetaProps
 
@@ -53,10 +56,17 @@ const PageMetaHelmet = (meta: PageMetaProps) => <Helmet>
     <meta property="og:url" content={meta.facebookUrl} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={meta.facebookTitle} />
+    <meta property="og:site_name" content={meta.title} />
     <meta property="og:description" content={meta.facebookDescription || meta.description} />
     <meta property="og:image" content={absoluteImageURL(meta.baseURL, meta.facebookImage)} />
+    {meta.locale &&
+        <meta property="og:locale" content={meta.locale} />
+    }
     {meta.facebookAppId &&
         <meta property="fb:app_id" content={meta.facebookAppId} />
+    }
+    {meta.facebookType &&
+        <meta property="og:type" content={meta.facebookType} />
     }
     {meta.canonicalURL &&
         <link rel="canonical" href={meta.canonicalURL} />
