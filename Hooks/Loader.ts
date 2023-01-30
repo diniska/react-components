@@ -40,10 +40,15 @@ export const useDOMStorage = <T>(elementId: string): Storage<T> =>
 
 export const createMultilayerStorage = <T>(...storages: Storage<T>[]): Storage<T> => ({
     get: () => {
+        const storagesToUpdate: Storage<T>[] = []
         for (const storage of storages) {
             const data = storage.get()
-            if (data !== undefined) {
+
+            if (data) {
+                storagesToUpdate.forEach(storage => storage.set(data))
                 return data
+            } else {
+                storagesToUpdate.push(storage)
             }
         }
         return undefined
