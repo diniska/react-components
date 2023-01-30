@@ -59,7 +59,7 @@ const localesNames: { [key in LocaleCode]: string } = {
     "zh": "简体中文",
 }
 
-export const SupportedLocaleCodes = Object.keys(localesNames) as LocaleCode[]
+export const SupportedLocaleCodes = Object.keys(localesNames).sort() as LocaleCode[]
 
 export const localeName = (localeCode: LocaleCode) => localesNames[localeCode]
 
