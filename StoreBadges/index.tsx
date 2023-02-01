@@ -5,9 +5,9 @@ import appstoreBackground from "./AppStore.png"
 import googlePlaybackground from "./GooglePlay.png"
 import useLocalized from "../Localization/hook"
 import notSelectable from "../Styles/notSelectable.module.css"
-import LocalizationsLoaderContext from "../Context/LocalizationsLoaderContext"
 import { Locale, LocalizationsLoader } from "../Localization"
 import * as loaders from "./Data"
+import { LocalizationLoaderProvider } from "../Context/LocalizationsLoaderContext"
 
 interface ImageSlice {
     leading: number,
@@ -38,7 +38,7 @@ const StoreBadge = ({ background, slice, url, ...props }: StoreBadgeProps & BoxE
     className={[styles.reference, notSelectable.notSelectable].join(" ")}
     target="_blank"
 >
-    <LocalizationsLoaderContext.Provider value={localizationsLoader}>
+    <LocalizationLoaderProvider loader={localizationsLoader}>
         <Box
             {...props}
             style={{
@@ -51,7 +51,7 @@ const StoreBadge = ({ background, slice, url, ...props }: StoreBadgeProps & BoxE
             height="40px"
             border={props.border || {}}
         />
-    </LocalizationsLoaderContext.Provider>
+    </LocalizationLoaderProvider>
 </a>
 
 const defaultSlice: ImageSlice = {
