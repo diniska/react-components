@@ -20,20 +20,31 @@ export const useLocalizationsLoader = (key?: string) => {
 export const LocalizationLoaderProvider = ({ children, loader }: PropsWithChildren<{ loader: LocalizationsLoader }>) => {
     const current = useContext(LocalizationsLoaderContext)
     return <LocalizationsLoaderContext.Provider value={{
-        currentKey: loader.key, 
+        currentKey: loader.key,
         loaders: { ...(current?.loaders ?? {}), [loader.key]: loader }
     }} children={children} />
 }
 
 export const SwitchLocalizationLoader = ({ children, loaderKey }: PropsWithChildren<{ loaderKey: string }>) => {
     const current = useContext(LocalizationsLoaderContext)
-    
-    if (current?.loaders[loaderKey] === undefined) {
-        console.error("Localization loader with key " + loaderKey + " is not registered")
+
+    if (!current) {
+        console.error(`Localization loader with key ${loaderKey} is not registered`)
+        return <>{children}</>
     }
 
-    return <LocalizationsLoaderContext.Provider value={{
-        currentKey: loaderKey, 
-        loaders: current?.loaders ?? {}
-    }} children={children} />
+    if (current.currentKey === loaderKey) {
+        return <>{children}</>
+    }
+
+    if (!current.loaders[loaderKey]) {
+        console.error(`Localization loader with key ${loaderKey} is not registered`)
+        return <>{children}</>
+    } else {
+        const value = {
+            currentKey: loaderKey,
+            loaders: current.loaders
+        }
+        return <LocalizationsLoaderContext.Provider value={value} children={children}/>
+    }
 }
