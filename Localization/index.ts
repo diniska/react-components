@@ -1,7 +1,7 @@
 export const currentLocale = () => {
     const userLang = navigator.language?.split("-")[0]
     const code = SupportedLocaleCodes.find(locale => userLang === locale) ?? "en"
-    return LocaleWithCode(code)
+    return LocaleWithCode(code, true)
 }
 
 export type LocaleCode = "en" | "ru" | "fr" | "es" | "de" | "zh" | "nb" | "nl" | "pt" | "it" | "ja" | "ko" | "vi" | "sv" | "da" | "fi" | "tr" | "el" | "id" | "ms" | "th" | "hu" | "pl" | "cs" | "sk" | "uk" | "hr" | "ca" | "ro" | "he" | "af" | "hi" | "kk" | "ar"
@@ -10,6 +10,7 @@ export type WritingDirection = "ltr" | "rtl"
 export interface Locale {
     code: LocaleCode
     writingDirection: WritingDirection
+    isDefault: boolean
 }
 
 export interface LocalizationsLoader {
@@ -17,9 +18,10 @@ export interface LocalizationsLoader {
     load: (locale: Locale) => Promise<{[key: string]: string}>
 }
 
-export const LocaleWithCode = (code: LocaleCode): Locale => ({
+export const LocaleWithCode = (code: LocaleCode, isDefault: boolean = false): Locale => ({
     code: code,
-    writingDirection: ["ar", "he"].includes(code) ? "rtl" : "ltr"
+    writingDirection: ["ar", "he"].includes(code) ? "rtl" : "ltr",
+    isDefault: isDefault
 })
 
 const localesNames: { [key in LocaleCode]: string } = {
