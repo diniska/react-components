@@ -6,12 +6,16 @@ interface Storage<T> {
 }
 
 // A storage that keeps data in memory
-export const useInMemoryStorage = <T>(): Storage<T> => {
+export const useInMemoryStorage = <T>(key: string): Storage<T> => {
+    const [storageKey, setStorageKey] = useState("")
     const [data, setData] = useState<T | undefined>(undefined)
     return useMemo(() => ({
-        get: () => data,
-        set: setData
-    }), [data, setData])
+        get: () => storageKey === key ? data : undefined,
+        set: value => {
+            setData(value)
+            setStorageKey(key)
+        }
+    }), [data, setData, key, storageKey, setStorageKey])
 }
 
 // A storage that keeps data in the DOM that helps with pre-rendering 
@@ -84,13 +88,13 @@ export const useLoadedDataWithStorage = <T>(load: () => Promise<T>, key = "", st
 }
 
 const useLoadedData = <T>(load: () => Promise<T>, key = "") => {
-    const storage = useInMemoryStorage<T>()
+    const storage = useInMemoryStorage<T>(key)
     return useLoadedDataWithStorage(load, key, storage)
 }
 
 export const useLoadedDataWithDOMStorage = <T>(load: () => Promise<T>, key = "") => {
     const id = "shared-components-loader-dom-storage-" + key
-    const inMemoryStorage = useInMemoryStorage<T>()
+    const inMemoryStorage = useInMemoryStorage<T>(key)
     const domStorage = useDOMStorage<T>(id)
     const storage = useMemo(() => createMultilayerStorage(inMemoryStorage, domStorage), [inMemoryStorage, domStorage])
     return useLoadedDataWithStorage(load, key, storage)
