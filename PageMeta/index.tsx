@@ -1,6 +1,7 @@
 import React from 'react'
 import Helmet from "react-helmet"
 import { LocaleCode } from '../Localization'
+import SmartAppBanner, { SmartAppBannerProps } from './SmartAppBanner'
 
 /// https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/markup
 export interface TwitterCardMetaProps {
@@ -37,10 +38,7 @@ export interface PageMetaProps {
     twitterCard?: TwitterCardMetaProps
 
     canonicalURL?: string
-    iosSmartbanner: {
-        appId: string
-        argument?: string
-    }
+    iosSmartbanner: SmartAppBannerProps
 }
 
 const PageMeta = (meta: PageMetaProps) => {
@@ -48,46 +46,42 @@ const PageMeta = (meta: PageMetaProps) => {
     return PageMetaHelmet(meta)
 }
 
-const PageMetaHelmet = (meta: PageMetaProps) => <Helmet>
-    <title>{meta.title}</title>
-    <meta name="description" content={meta.description} />
-    <meta name="keywords" content={meta.keywords} />
-    {/* Facebook meta */}
-    <meta property="og:url" content={meta.facebookUrl} />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content={meta.facebookTitle} />
-    <meta property="og:site_name" content={meta.title} />
-    <meta property="og:description" content={meta.facebookDescription || meta.description} />
-    <meta property="og:image" content={absoluteImageURL(meta.baseURL, meta.facebookImage)} />
-    {meta.locale &&
-        <meta property="og:locale" content={meta.locale} />
-    }
-    {meta.facebookAppId &&
-        <meta property="fb:app_id" content={meta.facebookAppId} />
-    }
-    {meta.facebookType &&
-        <meta property="og:type" content={meta.facebookType} />
-    }
-    {meta.canonicalURL &&
-        <link rel="canonical" href={meta.canonicalURL} />
-    }
+const PageMetaHelmet = (meta: PageMetaProps) => <>
+    <Helmet>
+        <title>{meta.title}</title>
+        <meta name="description" content={meta.description} />
+        <meta name="keywords" content={meta.keywords} />
+        {/* Facebook meta */}
+        <meta property="og:url" content={meta.facebookUrl} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={meta.facebookTitle} />
+        <meta property="og:site_name" content={meta.title} />
+        <meta property="og:description" content={meta.facebookDescription || meta.description} />
+        <meta property="og:image" content={absoluteImageURL(meta.baseURL, meta.facebookImage)} />
+        {meta.locale &&
+            <meta property="og:locale" content={meta.locale} />
+        }
+        {meta.facebookAppId &&
+            <meta property="fb:app_id" content={meta.facebookAppId} />
+        }
+        {meta.facebookType &&
+            <meta property="og:type" content={meta.facebookType} />
+        }
+        {meta.canonicalURL &&
+            <link rel="canonical" href={meta.canonicalURL} />
+        }
+        {meta.twitterCard && <meta name="twitter:card" content="summary" />}
+        {meta.twitterCard && <meta name="twitter:title" content={meta.title} />}
+        {meta.twitterCard && <meta name="twitter:description" content={meta.description} />}
+        {meta.twitterCard && <meta name="twitter:site" content={meta.twitterCard.site} />}
+        {meta.twitterCard && meta.twitterCard.image && <meta name="twitter:image" content={absoluteImageURL(meta.baseURL, meta.twitterCard.image)} />}
+        {meta.twitterCard && meta.twitterCard.imageAlt && <meta name="twitter:image:alt" content={meta.twitterCard.imageAlt} />}
+    </Helmet>
+
     {meta.iosSmartbanner &&
-        //https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/PromotingAppswithAppBanners/PromotingAppswithAppBanners.html
-        <meta 
-            name="apple-itunes-app" 
-            content={
-                "app-id=" + meta.iosSmartbanner.appId 
-                + ((meta.iosSmartbanner.argument && (", app-argument=" + meta.iosSmartbanner.argument)) || "") 
-            } 
-        />
+        <SmartAppBanner {...meta.iosSmartbanner} />
     }
-    {meta.twitterCard && <meta name="twitter:card" content="summary" />}
-    {meta.twitterCard && <meta name="twitter:title" content={meta.title} />}
-    {meta.twitterCard && <meta name="twitter:description" content={meta.description} />}
-    {meta.twitterCard && <meta name="twitter:site" content={meta.twitterCard.site} />}
-    {meta.twitterCard && meta.twitterCard.image && <meta name="twitter:image" content={absoluteImageURL(meta.baseURL, meta.twitterCard.image)} />}
-    {meta.twitterCard && meta.twitterCard.imageAlt && <meta name="twitter:image:alt" content={meta.twitterCard.imageAlt} />}
-</Helmet>
+</>
 
 function validateMeta(meta: PageMetaProps) {
     if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
