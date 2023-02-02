@@ -25,7 +25,7 @@ export interface StoreBadgeProps {
 const localizationsLoader: LocalizationsLoader = {
     key: "SharedComponents.StoreBadges",
     load: async (locale: Locale) => {
-        const loaderKey = locale.code as keyof typeof loaders
+        const loaderKey = locale.code.replace("-", "") as keyof typeof loaders
         const file = await (loaders[loaderKey]())
         return file.default as { [key: string]: string }
     }
