@@ -13,7 +13,8 @@ const useLocalized = (key: string, placeholder: string = "   ") =>
 const defaultScreenshotPathProvider = (locale: Locale) => `/screenshots/${locale.code}/`
 
 export const LocalizedScreenshotPathContext = createContext(defaultScreenshotPathProvider)
-export const useLocalizedScreenshot = (fileName: string) => useContext(LocalizedScreenshotPathContext)(useLocale()) + fileName.split(" ").join("%20")
+/// File name encoding responsibility is left to the caller. Use encodeURIComponent method if needed
+export const useLocalizedScreenshot = (fileName: string) => useContext(LocalizedScreenshotPathContext)(useLocale()) + fileName
 
 export const useMultipleLocalizations = <T>(
     keys: string[], 
