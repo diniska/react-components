@@ -38,7 +38,7 @@ export interface PageMetaProps {
     twitterCard?: TwitterCardMetaProps
 
     canonicalURL?: string
-    iosSmartbanner: SmartAppBannerProps
+    iosSmartbanner?: SmartAppBannerProps
 }
 
 const PageMeta = (meta: PageMetaProps) => {
