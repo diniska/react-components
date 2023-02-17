@@ -28,11 +28,9 @@ export const useResponsiveContextSize = (): SizeClass => {
     const small = theme.global?.breakpoints?.small?.value ?? defaultBreakpoints.small
     const width = window.innerWidth
 
-    return (
-        width <= xsmall ? "xsmall"
-            : width <= small ? "small"
-                : size
-    )
+    if (width <= xsmall) return "xsmall"
+    if (width <= small) return "small"
+    return size
 }
 
 const mobileSizes: SizeClass[] = ["xsmall", "small"]
