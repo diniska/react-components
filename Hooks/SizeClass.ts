@@ -11,7 +11,7 @@ export type SizeClass =
 
 const defaultBreakpoints: {[key: SizeClass]: number} = {
     xsmall: 400,
-    small: 768,
+    small: 734,
 }
 
 const isPreRendering = () => navigator.userAgent === "ReactSnap"
