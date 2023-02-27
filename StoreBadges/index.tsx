@@ -62,21 +62,21 @@ const defaultSlice: ImageSlice = {
     bottom: 39
 }
 
-const AppStoreBadgeContent = () => <>
+const AppStoreBadgeContent = ({ store = "ios" }: { store?: "ios" | "mac"}) => <>
     <Text className={styles.message}>
         {useLocalized("AppStore.Download", "Download on the")}
     </Text>
-    <Text className={styles.title}>App Store</Text>
+    <Text className={styles.title}>{store === "mac" && "Mac "}App Store</Text>
 </>
 
-export const AppStoreBadge = (props: Pick<StoreBadgeProps, "analyticsClassName"> & Pick<StoreBadgeProps, "url"> & BoxExtendedProps) => <StoreBadge
+export const AppStoreBadge = ({ store, ...props }: { store?: "ios" | "mac" } & Pick<StoreBadgeProps, "analyticsClassName"> & Pick<StoreBadgeProps, "url"> & BoxExtendedProps) => <StoreBadge
     {...props}
     background={appstoreBackground}
     slice={defaultSlice}
 >
     <Box
         className={styles.appStore}
-        children={<AppStoreBadgeContent />}
+        children={<AppStoreBadgeContent store={store}/>}
     />
 </StoreBadge>
 
