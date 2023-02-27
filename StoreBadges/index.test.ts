@@ -1,7 +1,7 @@
 import { localeName, SupportedLocaleCodes } from "../Localization"
 import * as loaders from "./Data"
 
-test("Losalisations translationavailable for all supported locales", async () => {
+test("Losalisations translation available for all supported locales", async () => {
     SupportedLocaleCodes.forEach(locale => {
         expect(localeName(locale)).not.toBeUndefined()
     })
@@ -9,7 +9,7 @@ test("Losalisations translationavailable for all supported locales", async () =>
 
 test("Losalisations available for all supported locales", async () => {
     SupportedLocaleCodes.forEach(async locale => {
-        const key = locale as keyof typeof loaders
+        const key = locale.replace("-", "")  as keyof typeof loaders
         const loadLocalizations = loaders[key]
         return await expect(loadLocalizations()).resolves.not.toBeUndefined()
     })
