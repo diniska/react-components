@@ -5,9 +5,9 @@ import appstoreBackground from "./AppStore.png"
 import googlePlaybackground from "./GooglePlay.png"
 import useLocalized from "../Localization/hook"
 import notSelectable from "../Styles/notSelectable.module.css"
-import LocalizationsLoaderContext from "../Context/LocalizationsLoaderContext"
 import { Locale, LocalizationsLoader } from "../Localization"
 import * as loaders from "./Data"
+import { LocalizationLoaderProvider } from "../Context/LocalizationsLoaderContext"
 
 interface ImageSlice {
     leading: number,
@@ -20,12 +20,13 @@ export interface StoreBadgeProps {
     url: string
     background: string
     slice: ImageSlice
+    analyticsClassName?: string
 }
 
 const localizationsLoader: LocalizationsLoader = {
     key: "SharedComponents.StoreBadges",
     load: async (locale: Locale) => {
-        const loaderKey = locale.code as keyof typeof loaders
+        const loaderKey = locale.code.replace("-", "") as keyof typeof loaders
         const file = await (loaders[loaderKey]())
         return file.default as { [key: string]: string }
     }
@@ -33,11 +34,12 @@ const localizationsLoader: LocalizationsLoader = {
 
 const borderParameters = (slice: ImageSlice) => `${slice.top} ${slice.trailing} ${slice.bottom} ${slice.leading}`
 
-const StoreBadge = ({ background, slice, url, ...props }: StoreBadgeProps & BoxExtendedProps) => <a
+const StoreBadge = ({ background, slice, url, analyticsClassName, ...props }: StoreBadgeProps & BoxExtendedProps) => <a
     href={url}
-    className={[styles.reference, notSelectable.notSelectable].join(" ")}
+    className={[styles.reference, notSelectable.notSelectable, analyticsClassName].join(" ")}
+    target="_blank"
 >
-    <LocalizationsLoaderContext.Provider value={localizationsLoader}>
+    <LocalizationLoaderProvider loader={localizationsLoader}>
         <Box
             {...props}
             style={{
@@ -50,7 +52,7 @@ const StoreBadge = ({ background, slice, url, ...props }: StoreBadgeProps & BoxE
             height="40px"
             border={props.border || {}}
         />
-    </LocalizationsLoaderContext.Provider>
+    </LocalizationLoaderProvider>
 </a>
 
 const defaultSlice: ImageSlice = {
@@ -67,7 +69,7 @@ const AppStoreBadgeContent = () => <>
     <Text className={styles.title}>App Store</Text>
 </>
 
-export const AppStoreBadge = (props: Pick<StoreBadgeProps, "url"> & BoxExtendedProps) => <StoreBadge
+export const AppStoreBadge = (props: Pick<StoreBadgeProps, "analyticsClassName"> & Pick<StoreBadgeProps, "url"> & BoxExtendedProps) => <StoreBadge
     {...props}
     background={appstoreBackground}
     slice={defaultSlice}
@@ -83,7 +85,7 @@ const GooglePlayBadgeContent = () => <>
     <Text className={styles.title}>Google Play</Text>   
 </>
 
-export const GooglePlayBadge = (props: Pick<StoreBadgeProps, "url"> & BoxExtendedProps) => <StoreBadge
+export const GooglePlayBadge = (props: Pick<StoreBadgeProps, "analyticsClassName"> & Pick<StoreBadgeProps, "url"> & BoxExtendedProps) => <StoreBadge
     {...props}
     background={googlePlaybackground}
     slice={defaultSlice}
