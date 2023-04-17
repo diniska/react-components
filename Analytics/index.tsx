@@ -1,3 +1,4 @@
+import { CSSProperties } from "react"
 import CookieConsent, { getCookieConsentValue } from "react-cookie-consent"
 import GoogleAnalytics from "./GoogleAnalytics"
 import YandexMetrika, { YandexMetrikaProps } from "./YandexMetrika"
@@ -16,21 +17,18 @@ interface AnalyticsProps {
 const Analytics = (props: AnalyticsProps) => <>{
     isPreRendering() ||
     <>
-        <ConcentRequest />
+        <ConsentRequest buttonStyle={{
+            padding: "8px 16px",
+            borderRadius: "8px"
+        }} />
         {
             getCookieConsentValue() && <AnalyticsScripts {...props} />
         }
     </>
 }</>
 
-const ConcentRequest = () => {
-
-    const buttonStyle = {
-        padding: "8px 16px",
-        borderRadius: "8px"
-    }
-
-    return <CookieConsent
+const ConsentRequest = ({ buttonStyle }: { buttonStyle: CSSProperties }) =>
+    <CookieConsent
         enableDeclineButton
         buttonStyle={buttonStyle}
         declineButtonStyle={buttonStyle}
@@ -45,7 +43,6 @@ const ConcentRequest = () => {
             We use Google Analytics and Yandex.Metrica to collect anonymous information <b>only if you allow us to do so</b> by clicking "I understand" button.
         </span>
     </CookieConsent>
-}
 
 const AnalyticsScripts = ({ gtmId, ym }: AnalyticsProps) => <>
     {gtmId && <GoogleAnalytics id={gtmId} />}
