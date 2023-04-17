@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet"
-import { SupportedLocaleCodes } from "../Localization"
+import { LocaleCode, SupportedLocaleCodes } from "../Localization"
 import useWorld from "../Context/WorldContext"
 
 /// Adds all localized versions of the urls to the page head
@@ -10,12 +10,14 @@ import useWorld from "../Context/WorldContext"
 /// `<link rel="alternate" hrefLang="ru" href="https://getchemistry.io/ru/reactions/?search=H2O" />`,
 /// `<link rel="alternate" hrefLang="en" href="https://getchemistry.io/en/reactions/?search=H2O" />`, etc.
 /// The baseUrl is taken from useWorld hook
-const AlternativeUrls = ({ pathSuffix }: { pathSuffix: string }) => {
+const AlternativeUrls = ({ pathSuffix }: { pathSuffix: string | ((code?: LocaleCode) => string) }) => {
     const baseUrl = useWorld().baseUrl
+    const suffix = typeof pathSuffix === "string" ? () => pathSuffix : pathSuffix
+
     return <Helmet>
-        <link rel="alternate" hrefLang="x-default" href={baseUrl + "/" + pathSuffix} />
+        <link rel="alternate" hrefLang="x-default" href={baseUrl + "/" + suffix()} />
         {SupportedLocaleCodes.map(code =>
-            <link key={code} rel="alternate" hrefLang={code} href={`${baseUrl}/${code}/${pathSuffix}`} />
+            <link key={code} rel="alternate" hrefLang={code} href={`${baseUrl}/${code}/${suffix(code)}`} />
         )}
     </Helmet>
 }
