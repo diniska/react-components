@@ -16,7 +16,6 @@ declare global {
 }
 
 const YandexMetrika = ({ id, ...props }: YandexMetrikaProps) => {
-
     useEffect(() => {
         // used by the script
         window.YandexMetrikaProps = props
