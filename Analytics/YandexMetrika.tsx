@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import Script from "../Script"
 
 export interface YandexMetrikaProps {
@@ -9,18 +8,7 @@ export interface YandexMetrikaProps {
     webvisor?: boolean
 }
 
-declare global {
-    interface Window {
-        YandexMetrikaProps: Omit<YandexMetrikaProps, "id">
-    }
-}
-
 const YandexMetrika = ({ id, ...props }: YandexMetrikaProps) => {
-    useEffect(() => {
-        // used by the script
-        window.YandexMetrikaProps = props
-    }, [props])
-
     const yandexMetrikaScript = `
     (function (m, e, t, r, i) {
         m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments) };
@@ -30,7 +18,7 @@ const YandexMetrika = ({ id, ...props }: YandexMetrikaProps) => {
     })
         (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
     
-    ym(${id}, "init", window.YandexMetrikaProps);
+    ym(${id}, "init", ${JSON.stringify(props)});
     `
     return <Script async keep content={{id: "yandex-metrika", body: yandexMetrikaScript}} />
 }
