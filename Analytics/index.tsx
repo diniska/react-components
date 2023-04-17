@@ -43,7 +43,7 @@ const ConsentRequest = ({ buttonStyle, onChange }: { buttonStyle: CSSProperties,
         onAccept={() => onChange(true)}
         onDecline={() => onChange(false)}
     >
-        This website uses cookies to analyze user experience and ads effectiveness.
+        This website uses cookies to analyze user experience and ads effectiveness.<br/>
         <span
             style={{
                 fontSize: "10px",
