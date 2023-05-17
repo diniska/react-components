@@ -13,7 +13,7 @@ const WorldContext = createContext<WorldContextType>({
     baseUrl: "?"
 })
 
-const useWorld = () => useContext(WorldContext)
+const useWorld = <T extends WorldContextType>() => useContext(WorldContext) as T
 
 export const WorldProvider = WorldContext.Provider
 
