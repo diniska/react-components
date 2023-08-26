@@ -53,3 +53,24 @@
     line-height: 11px;
     margin-top: 5px;
 }
+
+/* RuStore */
+
+.ruStore {
+    color: white;
+    font-family: Roboto, -apple-system, sans-serif;
+    padding-left: 40px;
+    padding-right: 10px;
+}
+
+.ruStore .title {
+    font-size: 17px;
+    line-height: 17px;
+}
+
+.ruStore .message {
+    font-size: 9px;
+    letter-spacing: -0.15px;
+    line-height: 11px;
+    margin-top: 5px;
+}
