@@ -74,3 +74,26 @@
     line-height: 11px;
     margin-top: 5px;
 }
+
+
+/* Samsung Galaxy Store */
+
+.samsungGalaxyStore {
+    color: white;
+    font-family: Roboto, -apple-system, sans-serif;
+    padding-left: 40px;
+    padding-right: 8px;
+}
+
+.samsungGalaxyStore .title {
+    font-size: 17px;
+    line-height: 17px;
+    letter-spacing: -0.84px;
+}
+
+.samsungGalaxyStore .message {
+    font-size: 9px;
+    letter-spacing: -0.15px;
+    line-height: 11px;
+    margin-top: 5px;
+}

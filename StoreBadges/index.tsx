@@ -4,6 +4,7 @@ import styles from "./index.module.css"
 import appstoreBackground from "./AppStore.png"
 import googlePlaybackground from "./GooglePlay.png"
 import rustoreBackground from "./RuStore.png"
+import samsungGalaxyStoreBackground from "./SamsungGalaxy.png"
 import useLocalized from "../Localization/hook"
 import notSelectable from "../Styles/notSelectable.module.css"
 import { Locale, LocalizationsLoader } from "../Localization"
@@ -105,6 +106,19 @@ export const RuStoreBadge = (props: Pick<StoreBadgeProps, "analyticsClassName"> 
     slice={defaultSlice}
     className={styles.ruStore}
     children={<RuStoreBadgeContent />}
+/>
+
+export const SamsungGalaxyStoreBadgeContent = () => <>
+    <Text className={styles.message}>Available on</Text>
+    <Text className={styles.title}>Galaxy Store</Text>
+</>
+
+export const SamsungGalaxyStoreBadge = (props: Pick<StoreBadgeProps, "analyticsClassName"> & Pick<StoreBadgeProps, "url"> & BoxExtendedProps) => <StoreBadge
+    {...props}
+    background={samsungGalaxyStoreBackground}
+    slice={defaultSlice}
+    className={styles.samsungGalaxyStore}
+    children={<SamsungGalaxyStoreBadgeContent />}
 />
 
 export default StoreBadge
