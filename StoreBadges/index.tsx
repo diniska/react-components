@@ -109,7 +109,7 @@ export const RuStoreBadge = (props: Pick<StoreBadgeProps, "analyticsClassName"> 
 />
 
 export const SamsungGalaxyStoreBadgeContent = () => <>
-    <Text className={styles.message}>Available on</Text>
+    <Text className={styles.message}>{useLocalized("GalaxyStore.Download", "Available on")}</Text>
     <Text className={styles.title}>Galaxy Store</Text>
 </>
 
