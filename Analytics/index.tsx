@@ -37,17 +37,26 @@ const Analytics = (props: AnalyticsProps) => {
 
 const ConsentRequest = ({ buttonStyle, onChange }: { buttonStyle: CSSProperties, onChange: (consentReceived: boolean) => void }) =>
     <CookieConsent
+        contentStyle={{
+            lineHeight: "1.2",
+        }}
         enableDeclineButton
         buttonStyle={buttonStyle}
         declineButtonStyle={buttonStyle}
         onAccept={() => onChange(true)}
         onDecline={() => onChange(false)}
     >
-        This website uses cookies to analyze user experience and ads effectiveness.<br/>
+        <span
+        >
+            This website uses cookies to analyze user experience and ads effectiveness.<br />
+        </span>
+
         <span
             style={{
+                lineHeight: "1.4",
                 fontSize: "10px",
-                lineHeight: "5px",
+                display: "block",
+                marginTop: "8px",
             }}
         >
             We use Google Analytics and Yandex.Metrica to collect anonymous information <b>only if you allow us to do so</b> by clicking "I understand" button.
