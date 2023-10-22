@@ -15,24 +15,23 @@ interface AnalyticsProps {
 /// A view that makes sure that user allowed cookies collection and only then loads analytics scripts
 /// You need to install `react-cookie-consent` package to use this component
 const Analytics = (props: AnalyticsProps) => {
-    const [consentReceived, setConsentReceived] = useState(getCookieConsentValue() !== undefined)
+    const [consentReceived, setConsentReceived] = useState(getCookieConsentValue())
 
     if (isPreRendering()) {
         return <></>
     }
 
-    return <>
-        <ConsentRequest
+    if (consentReceived === "true") {
+        return <AnalyticsScripts {...props} />
+    } else {
+        return <ConsentRequest
             buttonStyle={{
                 padding: "8px 16px",
                 borderRadius: "8px"
             }}
-            onChange={setConsentReceived}
+            onChange={consent => setConsentReceived(consent + "") }
         />
-        {
-            consentReceived && <AnalyticsScripts {...props} />
-        }
-    </>
+    }
 }
 
 const ConsentRequest = ({ buttonStyle, onChange }: { buttonStyle: CSSProperties, onChange: (consentReceived: boolean) => void }) =>
