@@ -36,11 +36,12 @@ const localizationsLoader: LocalizationsLoader = {
 
 const borderParameters = (slice: ImageSlice) => `${slice.top} ${slice.trailing} ${slice.bottom} ${slice.leading}`
 
-const StoreBadge = ({ background, slice, url, analyticsClassName, ...props }: StoreBadgeProps & BoxExtendedProps) => <a
+const StoreBadge = ({ background, slice, url, analyticsClassName, onClick, ...props }: StoreBadgeProps & BoxExtendedProps) => <a
     href={url}
     className={[styles.reference, notSelectable.notSelectable, analyticsClassName].join(" ")}
     target="_blank"
     rel="noopener noreferrer"
+    onClick={onClick}
 >
     <LocalizationLoaderProvider loader={localizationsLoader}>
         <Box
