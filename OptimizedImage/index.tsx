@@ -1,4 +1,4 @@
-import { Image, ImageProps } from 'grommet'
+type imgProps = JSX.IntrinsicElements['img']
 
 export interface ImageReference {
     src: string
@@ -12,14 +12,14 @@ export interface OptimizedImageProps {
 }
 
 /// File name encoding responsibility is left to the caller. Use encodeURIComponent method if needed
-const OptimizedImage = ({ retina1x, retina2x, retina3x, ...props }: OptimizedImageProps & ImageProps & JSX.IntrinsicElements["img"]) => {
+const OptimizedImage = ({ retina1x, retina2x, retina3x, alt, ...props }: OptimizedImageProps & imgProps & JSX.IntrinsicElements["img"]) => {
     const webpSet = createWebPSet([["", retina1x], ["2x", retina2x], ["3x", retina3x]])
     const srcSet = createSrcSet([["", retina1x], ["2x", retina2x], ["3x", retina3x]])
     return <picture>
         <source type="image/webp" srcSet={webpSet} />
         <source srcSet={srcSet} />
         {/* The tag <picture> is ignored when not supported and only the tag image is used */}
-        <Image src={(retina1x.src)} srcSet={srcSet} {...props} />
+        <img src={(retina1x.src)} srcSet={srcSet} alt={alt} {...props} />
     </picture>
 }
 
