@@ -65,7 +65,7 @@ const defaultSlice: ImageSlice = {
     bottom: 39
 }
 
-const AppStoreBadgeContent = ({ store = "ios" }: { store?: "ios" | "mac"}) => <>
+const AppStoreBadgeContent = ({ store = "ios" }: { store?: "ios" | "mac" }) => <>
     <Text className={styles.message}>
         {useLocalized("AppStore.Download", "Download on the")}
     </Text>
@@ -79,13 +79,13 @@ export const AppStoreBadge = ({ store, ...props }: { store?: "ios" | "mac" } & P
 >
     <Box
         className={styles.appStore}
-        children={<AppStoreBadgeContent store={store}/>}
+        children={<AppStoreBadgeContent store={store} />}
     />
 </StoreBadge>
 
 const GooglePlayBadgeContent = () => <>
     <Text className={styles.message}>{useLocalized("GooglePlay.Download", "Get it on")}</Text>
-    <Text className={styles.title}>Google Play</Text>   
+    <Text className={styles.title}>Google Play</Text>
 </>
 
 export const GooglePlayBadge = (props: Pick<StoreBadgeProps, "analyticsClassName"> & Pick<StoreBadgeProps, "url"> & BoxExtendedProps) => <StoreBadge
