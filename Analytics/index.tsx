@@ -9,7 +9,10 @@ interface AnalyticsProps {
     /// Yandex.Metrica
     ym?: YandexMetrikaProps
     /// Google Analytics id
-    gtmId?: string
+    gtmId?: string,
+    /// When it is safe to assume that user don't need to give consent to cookies collection
+    /// For example, Kazakhstan law does not require user consent to cookies collection
+    forceConsent?: boolean,
 }
 
 /// A view that makes sure that user allowed cookies collection and only then loads analytics scripts
@@ -20,8 +23,8 @@ const Analytics = (props: AnalyticsProps) => {
     if (isPreRendering()) {
         return <></>
     }
-
-    if (consentReceived === "true") {
+    
+    if (consentReceived === "true" || props.forceConsent) {
         return <AnalyticsScripts {...props} />
     } else {
         return <ConsentRequest
