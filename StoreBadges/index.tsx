@@ -40,6 +40,7 @@ const StoreBadge = ({ background, slice, url, analyticsClassName, ...props }: St
     href={url}
     className={[styles.reference, notSelectable.notSelectable, analyticsClassName].join(" ")}
     target="_blank"
+    rel="noopener noreferrer"
 >
     <LocalizationLoaderProvider loader={localizationsLoader}>
         <Box
