@@ -1,10 +1,12 @@
-import { HTMLAttributes } from "react"
+import { AriaAttributes, DOMAttributes } from "react"
 
 /// Adds fetchpriority attribute to img tag in React
-/// https://stackoverflow.com/a/75460919/886703
+/// https://stackoverflow.com/a/74899929/886703
+
+export type FetchPriority = "high" | "low" | "auto"
 
 declare module "react" {
-    interface ImgHTMLAttributes<T> extends HTMLAttributes<T> {
-        fetchPriority?: "high" | "low" | "auto"
+    interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
+        fetchPriority?: FetchPriority
     }
 }
