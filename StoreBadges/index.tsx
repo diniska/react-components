@@ -36,10 +36,12 @@ const localizationsLoader: LocalizationsLoader = {
 
 const borderParameters = (slice: ImageSlice) => `${slice.top} ${slice.trailing} ${slice.bottom} ${slice.leading}`
 
-const StoreBadge = ({ background, slice, url, analyticsClassName, ...props }: StoreBadgeProps & BoxExtendedProps) => <a
+const StoreBadge = ({ background, slice, url, analyticsClassName, onClick, ...props }: StoreBadgeProps & BoxExtendedProps) => <a
     href={url}
     className={[styles.reference, notSelectable.notSelectable, analyticsClassName].join(" ")}
     target="_blank"
+    rel="noopener noreferrer"
+    onClick={onClick}
 >
     <LocalizationLoaderProvider loader={localizationsLoader}>
         <Box
@@ -64,7 +66,7 @@ const defaultSlice: ImageSlice = {
     bottom: 39
 }
 
-const AppStoreBadgeContent = ({ store = "ios" }: { store?: "ios" | "mac"}) => <>
+const AppStoreBadgeContent = ({ store = "ios" }: { store?: "ios" | "mac" }) => <>
     <Text className={styles.message}>
         {useLocalized("AppStore.Download", "Download on the")}
     </Text>
@@ -78,13 +80,13 @@ export const AppStoreBadge = ({ store, ...props }: { store?: "ios" | "mac" } & P
 >
     <Box
         className={styles.appStore}
-        children={<AppStoreBadgeContent store={store}/>}
+        children={<AppStoreBadgeContent store={store} />}
     />
 </StoreBadge>
 
 const GooglePlayBadgeContent = () => <>
     <Text className={styles.message}>{useLocalized("GooglePlay.Download", "Get it on")}</Text>
-    <Text className={styles.title}>Google Play</Text>   
+    <Text className={styles.title}>Google Play</Text>
 </>
 
 export const GooglePlayBadge = (props: Pick<StoreBadgeProps, "analyticsClassName"> & Pick<StoreBadgeProps, "url"> & BoxExtendedProps) => <StoreBadge
