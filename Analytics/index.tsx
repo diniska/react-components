@@ -23,7 +23,6 @@ const Analytics = (props: AnalyticsProps) => {
     if (isPreRendering()) {
         return <></>
     }
-    
     if (consentReceived === "true" || props.forceConsent) {
         return <AnalyticsScripts {...props} />
     } else {
