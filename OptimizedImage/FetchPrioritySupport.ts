@@ -7,6 +7,6 @@ export type FetchPriority = "high" | "low" | "auto"
 
 declare module "react" {
     interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
-        fetchPriority?: FetchPriority
+        fetchpriority?: FetchPriority
     }
 }
