@@ -4,7 +4,7 @@ export const currentLocale = () => {
     return LocaleWithCode(code, true)
 }
 
-export type LocaleCode = "en" | "ru" | "fr" | "de" | "nb" | "nl" | "it" | "ja" | "ko" | "vi" | "sv" | "da" | "fi" | "tr" | "el" | "id" | "ms" | "th" | "hu" | "pl" | "cs" | "sk" | "uk" | "hr" | "ca" | "ro" | "he" | "af" | "hi" | "kk" | "ar"
+export type LocaleCode = "en" | "ru" | "fr" | "de" | "nb" | "nl" | "it" | "ja" | "ko" | "vi" | "sv" | "da" | "fi" | "tr" | "el" | "id" | "ms" | "th" | "hu" | "pl" | "cs" | "sk" | "uk" | "hr" | "ca" | "ro" | "he" | "af" | "hi" | "kk" | "be" | "ar"
     | "pt" | "pt-Br"
     | "es" | "es-Mx"
     | "zh" | "zh-Hans" | "zh-Hant"
@@ -46,6 +46,7 @@ const localesNames: { [key in LocaleCode]: string } = {
     "id": "Indonesia",
     "it": "Italiano",
     "ja": "日本語",
+    "be": "Беларуская",
     "kk": "Қазақ Тілі",
     "ko": "한국어",
     "ms": "Bahasa Melayu",
