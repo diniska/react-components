@@ -77,7 +77,7 @@ export const SupportedLocaleCodes = Object.keys(localesNames).sort() as LocaleCo
 
 export const localeName = (localeCode: LocaleCode) => localesNames[localeCode]
 
-// Exampple of a LocalizationsLoader assuming
+// Example of a LocalizationsLoader assuming
 // import * as loaders from "./Data"
 // where Data is a folder with files named after locale codes
 // and each file exports a default object with localizations as key-value pairs
