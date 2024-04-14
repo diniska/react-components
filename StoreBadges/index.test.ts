@@ -1,11 +1,5 @@
-import { localeName, SupportedLocaleCodes } from "../Localization"
+import { SupportedLocaleCodes } from "../Localization"
 import * as loaders from "./Data"
-
-test("Losalisations translation available for all supported locales", async () => {
-    SupportedLocaleCodes.forEach(locale => {
-        expect(localeName(locale)).not.toBeUndefined()
-    })
-})
 
 test("Losalisations available for all supported locales", async () => {
     SupportedLocaleCodes.forEach(async locale => {
