@@ -1,6 +1,14 @@
-export const currentLocale = () => {
-    const userLang = navigator.language?.split("-")[0]
-    const code = SupportedLocaleCodes.find(locale => userLang === locale) ?? "en"
+const defaultLocaleCode = "en"
+
+export const currentLocale = (navigatorLanguage: string | null | undefined = navigator.language) => {
+    const components = navigatorLanguage?.split("-") ?? [defaultLocaleCode]
+    const languageWithRegion = components.slice(0, 2).join("-")
+    const language = components[0]
+
+    const code = SupportedLocaleCodesWithRegions.find(code => code === languageWithRegion)
+        ?? SupportedLocaleCodes.find(code => code === language) 
+        ?? defaultLocaleCode
+
     return LocaleWithCode(code, true)
 }
 
@@ -74,6 +82,7 @@ const localesNames: { [key in LocaleCode]: string } = {
 }
 
 export const SupportedLocaleCodes = Object.keys(localesNames).sort() as LocaleCode[]
+const SupportedLocaleCodesWithRegions = SupportedLocaleCodes.filter(code => code.includes("-"))
 
 export const localeName = (localeCode: LocaleCode) => localesNames[localeCode]
 
