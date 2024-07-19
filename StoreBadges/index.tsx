@@ -5,6 +5,7 @@ import appstoreBackground from "./AppStore.png"
 import googlePlaybackground from "./GooglePlay.png"
 import rustoreBackground from "./RuStore.png"
 import samsungGalaxyStoreBackground from "./SamsungGalaxy.png"
+import appsForAppleVisionBackground from "./AppsForAppleVision.png"
 import useLocalized from "../Localization/hook"
 import notSelectable from "../Styles/notSelectable.module.css"
 import { Locale, LocalizationsLoader } from "../Localization"
@@ -121,6 +122,22 @@ export const SamsungGalaxyStoreBadge = (props: Pick<StoreBadgeProps, "analyticsC
     slice={defaultSlice}
     className={styles.samsungGalaxyStore}
     children={<SamsungGalaxyStoreBadgeContent />}
+/>
+
+export const AppsForAppleVisionBadgeContent = () => <>
+    <Text className={styles.message}>FEATURED ON</Text>
+    <Text className={styles.link}>
+        <span className={styles.domain}>AppsForAppleVision</span>
+        <span className={styles.zone}>.com</span>
+    </Text>
+</>
+
+export const AppsForAppleVisionBadge = (props: Pick<StoreBadgeProps, "analyticsClassName"> & Pick<StoreBadgeProps, "url"> & BoxExtendedProps) => <StoreBadge
+    {...props}
+    background={appsForAppleVisionBackground}
+    slice={defaultSlice}
+    className={styles.appsForAppleVision}
+    children={<AppsForAppleVisionBadgeContent />}
 />
 
 export default StoreBadge

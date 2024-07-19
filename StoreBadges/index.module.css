@@ -101,3 +101,38 @@
     line-height: 11px;
     margin-top: 5px;
 }
+
+/* Apps for Apple Vision Pro */
+
+.appsForAppleVision {
+    color: white;
+    font-family: ui-sans-serif, -apple-system, sans-serif;
+    padding-left: 40px;
+    padding-right: 8px;
+}
+
+.appsForAppleVision .link {
+    line-height: 14px;
+}
+
+.appsForAppleVision .link .domain {
+    font-size: 14px;
+    line-height: 14px;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+}
+
+.appsForAppleVision .link .zone {
+    font-size: 9px;
+    line-height: 9px;
+    color: #A0A3A8;
+    letter-spacing: -0.4px;
+}
+
+.appsForAppleVision .message {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    line-height: 11px;
+    margin-top: 5px;
+}
