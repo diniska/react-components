@@ -1,5 +1,5 @@
 import React from "react"
-import { Box, BoxExtendedProps, Text } from "grommet"
+import { AnchorExtendedProps, Box, BoxExtendedProps, Text } from "grommet"
 import styles from "./index.module.css"
 import appstoreBackground from "./AppStore.png"
 import googlePlaybackground from "./GooglePlay.png"
@@ -36,8 +36,9 @@ const localizationsLoader: LocalizationsLoader = {
 }
 
 const borderParameters = (slice: ImageSlice) => `${slice.top} ${slice.trailing} ${slice.bottom} ${slice.leading}`
+type StoreBadgeExtendedProps = Exclude<BoxExtendedProps, "onClick"> & Pick<AnchorExtendedProps, "onClick">
 
-const StoreBadge = ({ background, slice, url, analyticsClassName, onClick, ...props }: StoreBadgeProps & BoxExtendedProps) => <a
+const StoreBadge = ({ background, slice, url, analyticsClassName, onClick, ...props }: StoreBadgeProps & StoreBadgeExtendedProps) => <a
     href={url}
     className={[styles.reference, notSelectable.notSelectable, analyticsClassName].join(" ")}
     target="_blank"
@@ -74,7 +75,7 @@ const AppStoreBadgeContent = ({ store = "ios" }: { store?: "ios" | "mac" }) => <
     <Text className={styles.title}>{store === "mac" && "Mac "}App Store</Text>
 </>
 
-export const AppStoreBadge = ({ store, ...props }: { store?: "ios" | "mac" } & Pick<StoreBadgeProps, "analyticsClassName"> & Pick<StoreBadgeProps, "url"> & BoxExtendedProps) => <StoreBadge
+export const AppStoreBadge = ({ store, ...props }: { store?: "ios" | "mac" } & Pick<StoreBadgeProps, "analyticsClassName"> & Pick<StoreBadgeProps, "url"> & StoreBadgeExtendedProps) => <StoreBadge
     {...props}
     background={appstoreBackground}
     slice={defaultSlice}
@@ -90,7 +91,7 @@ const GooglePlayBadgeContent = () => <>
     <Text className={styles.title}>Google Play</Text>
 </>
 
-export const GooglePlayBadge = (props: Pick<StoreBadgeProps, "analyticsClassName"> & Pick<StoreBadgeProps, "url"> & BoxExtendedProps) => <StoreBadge
+export const GooglePlayBadge = (props: Pick<StoreBadgeProps, "analyticsClassName"> & Pick<StoreBadgeProps, "url"> & StoreBadgeExtendedProps) => <StoreBadge
     {...props}
     background={googlePlaybackground}
     slice={defaultSlice}
@@ -103,7 +104,7 @@ export const RuStoreBadgeContent = () => <>
     <Text className={styles.title}>RuStore</Text>
 </>
 
-export const RuStoreBadge = (props: Pick<StoreBadgeProps, "analyticsClassName"> & Pick<StoreBadgeProps, "url"> & BoxExtendedProps) => <StoreBadge
+export const RuStoreBadge = (props: Pick<StoreBadgeProps, "analyticsClassName"> & Pick<StoreBadgeProps, "url"> & StoreBadgeExtendedProps) => <StoreBadge
     {...props}
     background={rustoreBackground}
     slice={defaultSlice}
@@ -116,7 +117,7 @@ export const SamsungGalaxyStoreBadgeContent = () => <>
     <Text className={styles.title}>Galaxy Store</Text>
 </>
 
-export const SamsungGalaxyStoreBadge = (props: Pick<StoreBadgeProps, "analyticsClassName"> & Pick<StoreBadgeProps, "url"> & BoxExtendedProps) => <StoreBadge
+export const SamsungGalaxyStoreBadge = (props: Pick<StoreBadgeProps, "analyticsClassName"> & Pick<StoreBadgeProps, "url"> & StoreBadgeExtendedProps) => <StoreBadge
     {...props}
     background={samsungGalaxyStoreBackground}
     slice={defaultSlice}
@@ -132,7 +133,7 @@ export const AppsForAppleVisionBadgeContent = () => <>
     </Text>
 </>
 
-export const AppsForAppleVisionBadge = (props: Pick<StoreBadgeProps, "analyticsClassName"> & Pick<StoreBadgeProps, "url"> & BoxExtendedProps) => <StoreBadge
+export const AppsForAppleVisionBadge = (props: Pick<StoreBadgeProps, "analyticsClassName"> & Pick<StoreBadgeProps, "url"> & StoreBadgeExtendedProps) => <StoreBadge
     {...props}
     background={appsForAppleVisionBackground}
     slice={defaultSlice}
