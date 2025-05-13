@@ -27,7 +27,13 @@ const Analytics = (props: AnalyticsProps) => {
 
     if (isPreRendering()) {
         if (props.displayConsentRequestInPreRendering) {
-            return <AnalyticsScripts {...props} />
+            return <ConsentRequest
+                buttonStyle={{
+                    padding: "8px 16px",
+                    borderRadius: "8px"
+                }}
+                onChange={consent => setConsentReceived(consent + "")}
+            />
         } else {
             return <></>
         }
