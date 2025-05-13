@@ -13,6 +13,11 @@ interface AnalyticsProps {
     /// When it is safe to assume that user don't need to give consent to cookies collection
     /// For example, Kazakhstan law does not require user consent to cookies collection
     forceConsent?: boolean,
+    /// When to show consent request in pre-rendering mode
+    /// Sometimes it can help reducing Largest Contentful Paint (LCP) metric
+    /// by displaying the concent instantly.
+    /// Only use this option if you can't make another content larger than consent request
+    displayConsentRequestInPreRendering?: boolean
 }
 
 /// A view that makes sure that user allowed cookies collection and only then loads analytics scripts
@@ -21,7 +26,11 @@ const Analytics = (props: AnalyticsProps) => {
     const [consentReceived, setConsentReceived] = useState(getCookieConsentValue())
 
     if (isPreRendering()) {
-        return <></>
+        if (props.displayConsentRequestInPreRendering) {
+            return <AnalyticsScripts {...props} />
+        } else {
+            return <></>
+        }
     }
     
     if (consentReceived === "true" || props.forceConsent) {
