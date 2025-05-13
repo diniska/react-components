@@ -15,7 +15,7 @@ interface AnalyticsProps {
     forceConsent?: boolean,
     /// When to show consent request in pre-rendering mode
     /// Sometimes it can help reducing Largest Contentful Paint (LCP) metric
-    /// by displaying the concent instantly.
+    /// by displaying the consent instantly.
     /// Only use this option if you can't make another content larger than consent request
     displayConsentRequestInPreRendering?: boolean
 }
