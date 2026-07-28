@@ -24,20 +24,23 @@ export const useDOMStorage = <T>(elementId: string): Storage<T> =>
     useMemo(() => ({
         get: () => {
             const script = document.getElementById(elementId) as HTMLScriptElement
-            if (script) {
-                return JSON.parse(script.innerHTML)
-            }
-            return undefined
+            return script ? JSON.parse(script.innerHTML) : undefined
         },
         set: data => {
             let script = document.getElementById(elementId) as HTMLScriptElement
-            if (!script) {
+            const encodedData = JSON.stringify(data)
+            const scriptType = "application/json"
+            if (script) {
+                if (script.innerHTML === encodedData && script.type === scriptType) {
+                    return
+                }
+            } else {
                 script = document.createElement("script")
                 document.body.appendChild(script)
                 script.id = elementId
             }
-            script.type = "application/json"
-            script.innerHTML = JSON.stringify(data)
+            script.type = scriptType
+            script.innerHTML = encodedData
         }
     }), [elementId])
 
@@ -72,7 +75,6 @@ export const useLoadedDataWithStorage = <T>(load: () => Promise<T>, key = "", st
 
         if (data === undefined) {
             load().then(data => {
-                console.info(`Loaded data for ${key}`)
                 if (mounted) {
                     storage.set(data)
                 }
