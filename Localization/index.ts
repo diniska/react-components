@@ -25,9 +25,11 @@ export interface Locale {
     isDefault: boolean
 }
 
+export type Localization =  { [key: string]: string }
+
 export interface LocalizationsLoader {
     key: string
-    load: (locale: Locale) => Promise<{ [key: string]: string }>
+    load: (locale: Locale) => Promise<Localization>
 }
 
 export const LocaleWithCode = (code: LocaleCode, isDefault: boolean = false): Locale => ({

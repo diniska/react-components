@@ -1,9 +1,11 @@
 import { createContext, PropsWithChildren, useContext } from "react"
-import { LocalizationsLoader } from "../Localization"
+import { Localization, LocalizationsLoader } from "../Localization"
 
 interface LocalizationsLoaderSet {
     currentKey: string
-    loaders: { [key: string]: LocalizationsLoader }
+    loaders: { 
+        [key: string]: LocalizationsLoader & { progress?: Promise<Localization> }
+    }
 }
 
 const LocalizationsLoaderContext = createContext<LocalizationsLoaderSet | undefined>(undefined)

@@ -75,7 +75,6 @@ export const useLoadedDataWithStorage = <T>(load: () => Promise<T>, key = "", st
 
         if (data === undefined) {
             load().then(data => {
-                console.info(`Loaded data for ${key}`)
                 if (mounted) {
                     storage.set(data)
                 }
