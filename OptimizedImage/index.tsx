@@ -1,6 +1,8 @@
+type ImageType = "image/webp" | "image/png" | "image/jpeg" | string
+
 export interface ImageReference {
     src: string
-    type?: "image/webp" | "image/png" | "image/jpg" | string
+    type?: ImageType
     webp?: string
 }
 
@@ -8,6 +10,26 @@ export interface OptimizedImageProps {
     retina1x: ImageReference
     retina2x: ImageReference
     retina3x: ImageReference
+}
+
+const imageMimeTypes = {
+    "image/png": {
+        prefixes: ["data:image/png;"],
+        suffixes: [".png", ".PNG"]
+    },
+    "image/jpeg": {
+        prefixes: ["data:image/jpeg;"],
+        suffixes: [".jpg", ".jpeg", ".JPG", ".JPEG"]
+    }
+}
+
+const imageTypeFromSrc = (src: string): ImageType | undefined => {
+    for (const [type, { prefixes, suffixes }] of Object.entries(imageMimeTypes)) {
+        if (prefixes.some(prefix => src.startsWith(prefix)) || suffixes.some(suffix => src.endsWith(suffix))) {
+            return type as ImageType
+        }
+    }
+    return undefined
 }
 
 /// File name encoding responsibility is left to the caller. Use encodeURIComponent method if needed
@@ -19,8 +41,14 @@ const OptimizedImage = ({ alt, ...props }: OptimizedImageProps & JSX.IntrinsicEl
     return <picture>
         <source type="image/webp" srcSet={webpSet} />
         <source type={defaultType} srcSet={srcSet} />
-        {/* The tag <picture> is ignored when not supported and only the tag image is used */}
-        <img src={(props.retina1x.src)} srcSet={srcSet} alt={alt} {...imgProps} />
+        {/* 
+            The <picture> is ignored when not supported and only the <img> tag is used.
+            Potential optimization would be to include srcSet on the <img> tag as well
+            but this triggers an additional image loading as <img> has priority in the loading order
+            (because how React adds it to the DOM).
+            It is a trade-off between towards saving network for modern browser and displaying smaller version for browsers that don't support <picture>.
+        */}
+        <img src={(props.retina1x.src)} alt={alt} {...imgProps} />
     </picture>
 }
 
@@ -39,8 +67,11 @@ const createSrcSet = (items: [Density, ImageReference][], src: (ref: ImageRefere
     createUrlSet(items.map(item => [item[0], src(item[1])]))
 
 const pictureSourceType = (srcs: ImageReference[]) => {
-    const types = new Set(srcs.flatMap(src => src.type))
-    return types.size === 1 
+    const types = new Set(
+        srcs.map(ref => ref.type || imageTypeFromSrc(ref.src))
+            .filter(Boolean) // removing undefined
+    )
+    return types.size === 1
         ? types.values().next().value
         : undefined
 }
