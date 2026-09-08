@@ -14,8 +14,8 @@ export interface OptimizedImageProps {
 
 const imageMimeTypes = {
     "image/png": {
-        prefixes: [".png", ".PNG"],
-        suffixes: ["data:image/png;"]
+        prefixes: ["data:image/png;"],
+        suffixes: [".png", ".PNG"]
     },
     "image/jpeg": {
         prefixes: ["data:image/jpeg;"],
