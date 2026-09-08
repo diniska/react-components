@@ -28,8 +28,14 @@ const OptimizedImage = ({ alt, ...props }: OptimizedImageProps & JSX.IntrinsicEl
     return <picture>
         <source type="image/webp" srcSet={webpSet} />
         <source type={defaultType} srcSet={srcSet} />
-        {/* The tag <picture> is ignored when not supported and only the tag image is used */}
-        <img src={(props.retina1x.src)} srcSet={srcSet} alt={alt} {...imgProps} />
+        {/* 
+            The tag <picture> is ignored when not supported and only the tag image is used
+            Potential optimization would be to include scrSet for the <img> tag as well
+            but this triggers additional image loading as <img> has priority in the loading order
+            (because how React adds it to the DOM).
+            It is a trade-off between towards saving network for modern browser and displaying smaller version for browsers that don't support <picture>.
+        */}
+        <img src={(props.retina1x.src)} alt={alt} {...imgProps} />
     </picture>
 }
 
