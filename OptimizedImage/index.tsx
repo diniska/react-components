@@ -43,7 +43,7 @@ const OptimizedImage = ({ alt, ...props }: OptimizedImageProps & JSX.IntrinsicEl
         <source type={defaultType} srcSet={srcSet} />
         {/* 
             The <picture> is ignored when not supported and only the <img> tag is used.
-            Potential optimization would be to include scrSet on the <img> tag as well
+            Potential optimization would be to include srcSet on the <img> tag as well
             but this triggers an additional image loading as <img> has priority in the loading order
             (because how React adds it to the DOM).
             It is a trade-off between towards saving network for modern browser and displaying smaller version for browsers that don't support <picture>.
