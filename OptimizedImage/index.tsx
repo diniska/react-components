@@ -1,6 +1,8 @@
+type ImageType = "image/webp" | "image/png" | "image/jpg" | string
+
 export interface ImageReference {
     src: string
-    type?: "image/webp" | "image/png" | "image/jpg" | string
+    type?: ImageType
     webp?: string
 }
 
@@ -8,6 +10,13 @@ export interface OptimizedImageProps {
     retina1x: ImageReference
     retina2x: ImageReference
     retina3x: ImageReference
+}
+
+const imageTypeFromSrc = (src: string): ImageType | undefined => {
+    if (src.endsWith(".png")) return "image/png"
+    if (src.endsWith(".jpg")) return "image/jpg"
+    if (src.endsWith(".jpeg")) return "image/jpg"
+    return undefined
 }
 
 /// File name encoding responsibility is left to the caller. Use encodeURIComponent method if needed
@@ -39,8 +48,11 @@ const createSrcSet = (items: [Density, ImageReference][], src: (ref: ImageRefere
     createUrlSet(items.map(item => [item[0], src(item[1])]))
 
 const pictureSourceType = (srcs: ImageReference[]) => {
-    const types = new Set(srcs.flatMap(src => src.type))
-    return types.size === 1 
+    const types = new Set(
+        srcs.map(ref => ref.type || imageTypeFromSrc(ref.src))
+            .filter(Boolean) // removing undefined
+    )
+    return types.size === 1
         ? types.values().next().value
         : undefined
 }
