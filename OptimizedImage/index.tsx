@@ -1,4 +1,4 @@
-type ImageType = "image/webp" | "image/png" | "image/jpg" | string
+type ImageType = "image/webp" | "image/png" | "image/jpeg" | string
 
 export interface ImageReference {
     src: string
@@ -12,10 +12,23 @@ export interface OptimizedImageProps {
     retina3x: ImageReference
 }
 
+const imageMimeTypes = {
+    "image/png": {
+        prefixes: [".png", ".PNG"],
+        suffixes: ["data:image/png;"]
+    },
+    "image/jpeg": {
+        prefixes: ["data:image/jpeg;"],
+        suffixes: [".jpg", ".jpeg", ".JPG", ".JPEG"]
+    }
+}
+
 const imageTypeFromSrc = (src: string): ImageType | undefined => {
-    if (src.endsWith(".png")) return "image/png"
-    if (src.endsWith(".jpg")) return "image/jpg"
-    if (src.endsWith(".jpeg")) return "image/jpg"
+    for (const [type, { prefixes, suffixes }] of Object.entries(imageMimeTypes)) {
+        if (prefixes.some(prefix => src.startsWith(prefix)) || suffixes.some(suffix => src.endsWith(suffix))) {
+            return type as ImageType
+        }
+    }
     return undefined
 }
 
