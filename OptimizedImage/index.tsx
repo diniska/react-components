@@ -33,7 +33,7 @@ const imageTypeFromSrc = (src: string): ImageType | undefined => {
 }
 
 /// File name encoding responsibility is left to the caller. Use encodeURIComponent method if needed
-const OptimizedImage = ({ alt, ...props }: OptimizedImageProps & JSX.IntrinsicElements["img"]) => {
+const OptimizedImage = ({ alt, ...props }: OptimizedImageProps & React.JSX.IntrinsicElements["img"]) => {
     const [densityVersions, imgProps] = createDensityVersions(props)
     const webpSet = createSrcSet(densityVersions, src => src.webp)
     const srcSet = createSrcSet(densityVersions, src => src.src)

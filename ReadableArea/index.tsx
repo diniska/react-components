@@ -49,12 +49,12 @@ const useStyleLeading = () => styleForSizeLeading(useResponsiveContextSize(), us
 
 // MARK - Readable Area
 
-const Content = ({ style, ...props }: BoxProps & JSX.IntrinsicElements["div"]) =>
+const Content = ({ style, ...props }: BoxProps & React.JSX.IntrinsicElements["div"]) =>
     <Box style={{ ...useStyle(), ...style }} {...props} />
 
 
 /// Displays text paragraph that is easy to read
-const ReadableArea = (props: BoxProps & JSX.IntrinsicElements["div"]) => (
+const ReadableArea = (props: BoxProps & React.JSX.IntrinsicElements["div"]) => (
     <Box
         direction="column"
         fill="horizontal"
@@ -66,11 +66,11 @@ const ReadableArea = (props: BoxProps & JSX.IntrinsicElements["div"]) => (
 
 // MARK: - Readable area for leading edge
 
-const ContentLeading = ({ style, ...props }: BoxProps & JSX.IntrinsicElements["div"]) =>
+const ContentLeading = ({ style, ...props }: BoxProps & React.JSX.IntrinsicElements["div"]) =>
     <Box style={{...useStyleLeading(), ...style}} {...props}/>
 
 // Displays the text paragraph that is easy to read and is offset from the leading edge
-export const ReadableAreaLeading = (props: BoxProps & JSX.IntrinsicElements["div"]) => (
+export const ReadableAreaLeading = (props: BoxProps & React.JSX.IntrinsicElements["div"]) => (
     <Box
         direction="column"
         fill="horizontal"
