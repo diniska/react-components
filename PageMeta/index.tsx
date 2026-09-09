@@ -49,7 +49,9 @@ const PageMetaHelmet = (meta: PageMetaProps) => <>
     <>
         <title>{meta.title}</title>
         <meta name="description" content={meta.description} />
-        <meta name="keywords" content={meta.keywords} />
+        {meta.keywords && 
+            <meta name="keywords" content={meta.keywords} />
+        }
         {/* Facebook meta */}
         <meta property="og:url" content={meta.facebookUrl} />
         <meta property="og:type" content="website" />
