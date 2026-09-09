@@ -1,3 +1,5 @@
+import { PRERENDERED_HEAD_ATTRIBUTE } from "./Constants"
+
 export interface SmartAppBannerProps {
     appId: string
     appClipBundleId?: string
@@ -7,6 +9,7 @@ export interface SmartAppBannerProps {
 /// https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/PromotingAppswithAppBanners/PromotingAppswithAppBanners.html
 const SmartAppBanner = (props: SmartAppBannerProps) => (
     <meta
+        {...{ [PRERENDERED_HEAD_ATTRIBUTE]: "true" }}
         name="apple-itunes-app"
         content={
             "app-id=" + props.appId

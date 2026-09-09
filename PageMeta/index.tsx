@@ -1,4 +1,5 @@
 import { LocaleCode } from '../Localization'
+import { PRERENDERED_HEAD_ATTRIBUTE } from './Constants'
 import SmartAppBanner, { SmartAppBannerProps } from './SmartAppBanner'
 
 /// https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/markup
@@ -45,39 +46,41 @@ const PageMeta = (meta: PageMetaProps) => {
     return PageMetaHelmet(meta)
 }
 
+const prerenderedHeadMarker = { [PRERENDERED_HEAD_ATTRIBUTE]: "true" }
+
 const PageMetaHelmet = (meta: PageMetaProps) => <>
     <>
-        <title>{meta.title}</title>
-        <meta name="description" content={meta.description} />
+        <title {...prerenderedHeadMarker}>{meta.title}</title>
+        <meta {...prerenderedHeadMarker} name="description" content={meta.description} />
         {meta.keywords && 
-            <meta name="keywords" content={meta.keywords} />
+            <meta {...prerenderedHeadMarker} name="keywords" content={meta.keywords} />
         }
         {/* Facebook meta */}
-        <meta property="og:url" content={meta.facebookUrl} />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content={meta.facebookTitle} />
-        <meta property="og:site_name" content={meta.title} />
-        <meta property="og:description" content={meta.facebookDescription || meta.description} />
-        <meta property="og:image" content={absoluteImageURL(meta.baseURL, meta.facebookImage)} />
+        <meta {...prerenderedHeadMarker} property="og:url" content={meta.facebookUrl} />
+        <meta {...prerenderedHeadMarker} property="og:type" content="website" />
+        <meta {...prerenderedHeadMarker} property="og:title" content={meta.facebookTitle} />
+        <meta {...prerenderedHeadMarker} property="og:site_name" content={meta.title} />
+        <meta {...prerenderedHeadMarker} property="og:description" content={meta.facebookDescription || meta.description} />
+        <meta {...prerenderedHeadMarker} property="og:image" content={absoluteImageURL(meta.baseURL, meta.facebookImage)} />
         {meta.locale &&
-            <meta property="og:locale" content={meta.locale} />
+            <meta {...prerenderedHeadMarker} property="og:locale" content={meta.locale} />
         }
         {meta.facebookAppId &&
-            <meta property="fb:app_id" content={meta.facebookAppId} />
+            <meta {...prerenderedHeadMarker} property="fb:app_id" content={meta.facebookAppId} />
         }
         {meta.facebookType &&
-            <meta property="og:type" content={meta.facebookType} />
+            <meta {...prerenderedHeadMarker} property="og:type" content={meta.facebookType} />
         }
         {meta.canonicalURL &&
-            <link rel="canonical" href={meta.canonicalURL} />
+            <link {...prerenderedHeadMarker} rel="canonical" href={meta.canonicalURL} />
         }
-        {meta.twitterCard && <meta name="twitter:card" content="summary" />}
-        {meta.twitterCard && <meta name="twitter:title" content={meta.title} />}
-        {meta.twitterCard && <meta name="twitter:description" content={meta.description} />}
-        {meta.twitterCard && <meta name="twitter:site" content={meta.twitterCard.site} />}
-        {meta.twitterCard && meta.twitterCard.image && <meta name="twitter:image" content={absoluteImageURL(meta.baseURL, meta.twitterCard.image)} />}
-        {meta.twitterCard && meta.twitterCard.imageAlt && <meta name="twitter:image:alt" content={meta.twitterCard.imageAlt} />}
-        {meta.noindex === true && <meta name="robots" content="noindex" />}
+        {meta.twitterCard && <meta {...prerenderedHeadMarker} name="twitter:card" content="summary" />}
+        {meta.twitterCard && <meta {...prerenderedHeadMarker} name="twitter:title" content={meta.title} />}
+        {meta.twitterCard && <meta {...prerenderedHeadMarker} name="twitter:description" content={meta.description} />}
+        {meta.twitterCard && <meta {...prerenderedHeadMarker} name="twitter:site" content={meta.twitterCard.site} />}
+        {meta.twitterCard && meta.twitterCard.image && <meta {...prerenderedHeadMarker} name="twitter:image" content={absoluteImageURL(meta.baseURL, meta.twitterCard.image)} />}
+        {meta.twitterCard && meta.twitterCard.imageAlt && <meta {...prerenderedHeadMarker} name="twitter:image:alt" content={meta.twitterCard.imageAlt} />}
+        {meta.noindex === true && <meta {...prerenderedHeadMarker} name="robots" content="noindex" />}
     </>
 
     {meta.iosSmartbanner &&
