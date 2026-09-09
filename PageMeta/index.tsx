@@ -37,6 +37,7 @@ export interface PageMetaProps {
 
     canonicalURL?: string
     iosSmartbanner?: SmartAppBannerProps
+    noindex?: boolean
 }
 
 const PageMeta = (meta: PageMetaProps) => {
@@ -74,6 +75,7 @@ const PageMetaHelmet = (meta: PageMetaProps) => <>
         {meta.twitterCard && <meta name="twitter:site" content={meta.twitterCard.site} />}
         {meta.twitterCard && meta.twitterCard.image && <meta name="twitter:image" content={absoluteImageURL(meta.baseURL, meta.twitterCard.image)} />}
         {meta.twitterCard && meta.twitterCard.imageAlt && <meta name="twitter:image:alt" content={meta.twitterCard.imageAlt} />}
+        {meta.noindex === true && <meta name="robots" content="noindex" />}
     </>
 
     {meta.iosSmartbanner &&
