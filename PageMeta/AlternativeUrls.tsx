@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet"
 import { LocaleCode, SupportedLocaleCodes } from "../Localization"
 import useWorld from "../Context/WorldContext"
 
@@ -14,12 +13,12 @@ const AlternativeUrls = ({ pathSuffix }: { pathSuffix: string | ((code?: LocaleC
     const baseUrl = useWorld().baseUrl
     const suffix = typeof pathSuffix === "string" ? () => pathSuffix : pathSuffix
 
-    return <Helmet>
+    return <>
         <link rel="alternate" hrefLang="x-default" href={baseUrl + "/" + suffix()} />
         {SupportedLocaleCodes.map(code =>
             <link key={code} rel="alternate" hrefLang={code} href={`${baseUrl}/${code}/${suffix(code)}`} />
         )}
-    </Helmet>
+    </>
 }
 
 export default AlternativeUrls
