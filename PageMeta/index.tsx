@@ -1,5 +1,3 @@
-import React from 'react'
-import Helmet from "react-helmet"
 import { LocaleCode } from '../Localization'
 import SmartAppBanner, { SmartAppBannerProps } from './SmartAppBanner'
 
@@ -47,7 +45,7 @@ const PageMeta = (meta: PageMetaProps) => {
 }
 
 const PageMetaHelmet = (meta: PageMetaProps) => <>
-    <Helmet>
+    <>
         <title>{meta.title}</title>
         <meta name="description" content={meta.description} />
         <meta name="keywords" content={meta.keywords} />
@@ -76,7 +74,7 @@ const PageMetaHelmet = (meta: PageMetaProps) => <>
         {meta.twitterCard && <meta name="twitter:site" content={meta.twitterCard.site} />}
         {meta.twitterCard && meta.twitterCard.image && <meta name="twitter:image" content={absoluteImageURL(meta.baseURL, meta.twitterCard.image)} />}
         {meta.twitterCard && meta.twitterCard.imageAlt && <meta name="twitter:image:alt" content={meta.twitterCard.imageAlt} />}
-    </Helmet>
+    </>
 
     {meta.iosSmartbanner &&
         <SmartAppBanner {...meta.iosSmartbanner} />
