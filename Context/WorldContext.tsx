@@ -5,6 +5,8 @@ export interface WorldContextType {
     /// The url should not end with a slash
     /// Example: "https://getchemistry.io"
     baseUrl: string,
+    /// The name of the website
+    siteName?: string,
     /// An identifier of click through tracking if any
     clickThroughId?: string,
 }

@@ -1,3 +1,4 @@
+import useWorld from '../Context/WorldContext'
 import { LocaleCode } from '../Localization'
 import { PRERENDERED_HEAD_ATTRIBUTE } from './Constants'
 import SmartAppBanner, { SmartAppBannerProps } from './SmartAppBanner'
@@ -57,9 +58,9 @@ const PageMetaHelmet = (meta: PageMetaProps) => <>
         }
         {/* Facebook meta */}
         <meta {...prerenderedHeadMarker} property="og:url" content={meta.facebookUrl} />
-        <meta {...prerenderedHeadMarker} property="og:type" content="website" />
+        <meta {...prerenderedHeadMarker} property="og:type" content={meta.facebookType ?? "website"} />
         <meta {...prerenderedHeadMarker} property="og:title" content={meta.facebookTitle} />
-        <meta {...prerenderedHeadMarker} property="og:site_name" content={meta.title} />
+        <meta {...prerenderedHeadMarker} property="og:site_name" content={useWorld().siteName || meta.title} />
         <meta {...prerenderedHeadMarker} property="og:description" content={meta.facebookDescription || meta.description} />
         <meta {...prerenderedHeadMarker} property="og:image" content={absoluteImageURL(meta.baseURL, meta.facebookImage)} />
         {meta.locale &&
@@ -67,9 +68,6 @@ const PageMetaHelmet = (meta: PageMetaProps) => <>
         }
         {meta.facebookAppId &&
             <meta {...prerenderedHeadMarker} property="fb:app_id" content={meta.facebookAppId} />
-        }
-        {meta.facebookType &&
-            <meta {...prerenderedHeadMarker} property="og:type" content={meta.facebookType} />
         }
         {meta.canonicalURL &&
             <link {...prerenderedHeadMarker} rel="canonical" href={meta.canonicalURL} />
