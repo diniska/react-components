@@ -24,7 +24,7 @@ export interface PageMetaProps {
     baseURL: string
     title: string
     description: string
-    keywords: string
+    keywords?: string
     locale?: LocaleCode
 
     facebookUrl: string
@@ -101,15 +101,17 @@ function validateMeta(meta: PageMetaProps) {
         }
         checkLength("description", meta.description, 70, 160)
         checkLength("title", meta.title, 35, 70)
-        const keywords = meta.keywords.split(",")
+        const keywords = meta.keywords?.split(",") ?? []
         if (keywords.length !== new Set(keywords).size) {
             warn(`SEO: keywords should be unique`)
         }
-        const unexpectedPunctuation = [".", "–", " -", "- ", "\"", "'"].find(value => meta.keywords.includes(value))
+        const unexpectedPunctuation = [".", "–", " -", "- ", "\"", "'"].find(value => meta.keywords?.includes(value))
         if (unexpectedPunctuation !== undefined) {
             warn(`SEO: keywords should not contain punctuation except ','. '${unexpectedPunctuation}' detected in '${keywords}'`)
         }
-        checkLength("keywords", meta.keywords, 0, 255)
+        
+        meta.keywords && checkLength("keywords", meta.keywords, 0, 255)
+
         if (meta.description === meta.title) {
             warn("SEO: page description should be different from page title")
         }
