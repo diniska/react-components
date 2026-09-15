@@ -48,7 +48,7 @@ export const useMultipleLocalizations = <T>(
     )
     const data = useLoadedDataWithDOMStorage(callback,`${loader?.key}_${locale.code}`)
     
-    return data ? keys.map(key => data[key]) : keys.map(_ => placeholder)
+    return data ? keys.map(key => data[key] ?? placeholder) : keys.map(_ => placeholder)
 }
 
 export default useLocalized
