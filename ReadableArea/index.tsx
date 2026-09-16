@@ -74,7 +74,7 @@ export const ReadableAreaLeading = (props: BoxProps & React.JSX.IntrinsicElement
     <Box
         direction="column"
         fill="horizontal"
-        align="start"
+        align={useLocale().writingDirection === "ltr" ? "start" : "end"}
     >
         <ContentLeading {...props} />
     </Box>
