@@ -2,7 +2,7 @@ import { useLocale } from "../Context/LocaleContext"
 import { useLoadedDataWithDOMStorage } from "../Hooks/Loader"
 import { useLocalizationsLoader } from "../Context/LocalizationsLoaderContext"
 import { createContext, useCallback, useContext } from "react"
-import { Locale, Localization, LocalizationsLoader } from "."
+import { Locale, LocalizedDataLoader } from "."
 
 /// Localize a string using the current locale and the LocalizationsContext
 /// Placeholder is used if the localization is not available
@@ -16,7 +16,7 @@ export const LocalizedScreenshotPathContext = createContext(defaultScreenshotPat
 /// File name encoding responsibility is left to the caller. Use encodeURIComponent method if needed
 export const useLocalizedScreenshot = (fileName: string) => useContext(LocalizedScreenshotPathContext)(useLocale()) + fileName
 
-async function loadLocalizationSynchronously(loader: LocalizationsLoader & { progress?: Promise<Localization> }, locale: Locale): Promise<Localization | undefined> {
+async function loadDataSynchronously<T>(loader: LocalizedDataLoader<T> & { progress?: Promise<T> }, locale: Locale): Promise<T | undefined> {
     let progress = loader.progress
     const hasNotStarted = progress === undefined
 
@@ -35,19 +35,24 @@ async function loadLocalizationSynchronously(loader: LocalizationsLoader & { pro
     return result
 }
 
+export const useLocalizedData = <D, P>(placeholder: P, loader: LocalizedDataLoader<D> | undefined) => {
+    const locale = useLocale()
+
+    const callback = useCallback(
+        async () => loader === undefined ? undefined : await loadDataSynchronously(loader, locale),
+        [loader, locale]
+    )
+    const data = useLoadedDataWithDOMStorage(callback,`${loader?.key}_${locale.code}`)
+
+    return data ?? placeholder
+}
+
 export const useMultipleLocalizations = <T>(
     keys: string[], 
     placeholder: T
 ) => {
-    const locale = useLocale()
     const loader = useLocalizationsLoader()
-
-    const callback = useCallback(
-        async () => loader === undefined ? {} : await loadLocalizationSynchronously(loader, locale),
-        [loader, locale]
-    )
-    const data = useLoadedDataWithDOMStorage(callback,`${loader?.key}_${locale.code}`)
-    
+    const data = useLocalizedData(undefined, loader)
     return data ? keys.map(key => data[key] ?? placeholder) : keys.map(_ => placeholder)
 }
 

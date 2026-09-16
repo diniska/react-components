@@ -27,10 +27,12 @@ export interface Locale {
 
 export type Localization =  { [key: string]: string }
 
-export interface LocalizationsLoader {
+export interface LocalizedDataLoader<T> {
     key: string
-    load: (locale: Locale) => Promise<Localization>
+    load: (locale: Locale) => Promise<T>
 }
+
+export type LocalizationsLoader = LocalizedDataLoader<Localization>
 
 export const LocaleWithCode = (code: LocaleCode, isDefault: boolean = false): Locale => ({
     code: code,
