@@ -1,7 +1,7 @@
-import { Box, BoxProps } from 'grommet'
-import { useLocale } from '../Context/LocaleContext'
-import { WritingDirection } from '../Localization'
-import { SizeClass, useResponsiveContextSize } from '../Hooks/SizeClass'
+import { Box, BoxExtendedProps, BoxProps } from "grommet"
+import { useLocale } from "../Context/LocaleContext"
+import { WritingDirection } from "../Localization"
+import { SizeClass, useResponsiveContextSize } from "../Hooks/SizeClass"
 
 // MARK: - Private methods for calculating style
 
@@ -54,7 +54,7 @@ const Content = ({ style, ...props }: BoxProps & React.JSX.IntrinsicElements["di
 
 
 /// Displays text paragraph that is easy to read
-const ReadableArea = (props: BoxProps & React.JSX.IntrinsicElements["div"]) => (
+const ReadableArea = (props: BoxExtendedProps) => (
     <Box
         direction="column"
         fill="horizontal"
