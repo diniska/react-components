@@ -1,7 +1,8 @@
-import { CSSProperties, useState } from "react"
+import { CSSProperties, ProviderProps, useState } from "react"
 import CookieConsent, { getCookieConsentValue } from "react-cookie-consent"
 import GoogleAnalytics from "./GoogleAnalytics"
 import YandexMetrika, { YandexMetrikaProps } from "./YandexMetrika"
+import AnalyticsContext, { AnalyticsContextType } from "../Context/AnalyticsContext"
 
 const isPreRendering = () => navigator.userAgent === "ReactSnap"
 
@@ -22,34 +23,42 @@ interface AnalyticsProps {
 
 /// A view that makes sure that user allowed cookies collection and only then loads analytics scripts
 /// You need to install `react-cookie-consent` package to use this component
-const Analytics = (props: AnalyticsProps) => {
+const Analytics = ({children, ...props}: AnalyticsProps & Pick<ProviderProps<AnalyticsContextType>, "children">) => {
     const [consentReceived, setConsentReceived] = useState(getCookieConsentValue())
+    const [shouldPresent, canUseAnalytics] = (() => {
+        if (isPreRendering()) {
+            return [!!props.displayConsentRequestInPreRendering, false]
+        }
 
-    if (isPreRendering()) {
-        if (props.displayConsentRequestInPreRendering) {
-            return <ConsentRequest
+        if (consentReceived === "true" || props.forceConsent) {
+            return [false, true]
+        } else if (consentReceived) {
+            // answer is received and either "true" or "false"
+            return [false, false]
+        } else {
+            return [true, false]
+        }
+    })()
+
+    return <>
+        {shouldPresent &&
+            <ConsentRequest
                 buttonStyle={{
                     padding: "8px 16px",
                     borderRadius: "8px"
                 }}
                 onChange={consent => setConsentReceived(consent + "")}
             />
-        } else {
-            return <></>
         }
-    }
-    
-    if (consentReceived === "true" || props.forceConsent) {
-        return <AnalyticsScripts {...props} />
-    } else {
-        return <ConsentRequest
-            buttonStyle={{
-                padding: "8px 16px",
-                borderRadius: "8px"
-            }}
-            onChange={consent => setConsentReceived(consent + "") }
-        />
-    }
+
+        {canUseAnalytics &&
+            <AnalyticsScripts {...props} />
+        }
+
+        <AnalyticsContextProvider value={{
+            cookieConsentVisible: shouldPresent
+        }} children={children} />
+    </>
 }
 
 const ConsentRequest = ({ buttonStyle, onChange }: { buttonStyle: CSSProperties, onChange: (consentReceived: boolean) => void }) =>
@@ -84,5 +93,7 @@ const AnalyticsScripts = ({ gtmId, ym }: AnalyticsProps) => <>
     {gtmId && <GoogleAnalytics id={gtmId} />}
     {ym && <YandexMetrika {...ym} />}
 </>
+
+const AnalyticsContextProvider = AnalyticsContext.Provider
 
 export default Analytics
