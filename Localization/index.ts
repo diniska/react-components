@@ -1,5 +1,13 @@
 const defaultLocaleCode = "en"
 
+export const mapExtendedLocale = (code: ExtendedLocaleCode) => {
+    switch (code) {
+        case "zh": return "zh-Hans"
+        case "iw": return "he"
+        default: return code as LocaleCode
+    }
+}
+
 export const currentLocale = (navigatorLanguage: string | null | undefined = navigator.language) => {
     const components = navigatorLanguage?.split("-") ?? [defaultLocaleCode]
     const languageWithRegion = components.slice(0, 2).join("-")
@@ -15,7 +23,12 @@ export const currentLocale = (navigatorLanguage: string | null | undefined = nav
 export type LocaleCode = "en" | "ru" | "fr" | "de" | "nb" | "nl" | "it" | "ja" | "ko" | "vi" | "sv" | "da" | "fi" | "tr" | "el" | "id" | "ms" | "th" | "hu" | "pl" | "cs" | "sk" | "uk" | "hr" | "ca" | "ro" | "he" | "af" | "hi" | "kk" | "be" | "ar"
     | "pt" | "pt-Br"
     | "es" | "es-Mx"
-    | "zh" | "zh-Hans" | "zh-Hant"
+    | "zh-Hans" | "zh-Hant"
+
+type ExtraLocaleCode = "zh"
+    | "iw" // old version of `he`
+
+type ExtendedLocaleCode = LocaleCode | ExtraLocaleCode
 
 export type WritingDirection = "ltr" | "rtl"
 
@@ -34,11 +47,14 @@ export interface LocalizedDataLoader<T> {
 
 export type LocalizationsLoader = LocalizedDataLoader<Localization>
 
-export const LocaleWithCode = (code: LocaleCode, isDefault: boolean = false): Locale => ({
-    code: code,
-    writingDirection: ["ar", "he"].includes(code) ? "rtl" : "ltr",
-    isDefault: isDefault
-})
+export const LocaleWithCode = (extendedCode: ExtendedLocaleCode, isDefault: boolean = false): Locale => {
+    const code = mapExtendedLocale(extendedCode)
+    return {
+        code: code,
+        writingDirection: ["ar", "he"].includes(code) ? "rtl" : "ltr",
+        isDefault: isDefault
+    }
+}
 
 const localesNames: { [key in LocaleCode]: string } = {
     "af": "Afrikaans",
@@ -80,12 +96,15 @@ const localesNames: { [key in LocaleCode]: string } = {
     "es": "Español",
     "es-Mx": "Español Mexicano",
 
-    "zh": "简体中文",
     "zh-Hans": "简体中文",
     "zh-Hant": "繁體中文"
 }
 
 export const SupportedLocaleCodes = Object.keys(localesNames).sort() as LocaleCode[]
+export const SupportedExtraLocaleCodes = ["zh", "iw"] as ExtraLocaleCode[]
+export const SupportedExtendedLocaleCodes = (SupportedLocaleCodes as ExtendedLocaleCode[])
+    .concat(SupportedExtraLocaleCodes)
+    .sort()
 const SupportedLocaleCodesWithRegions = SupportedLocaleCodes.filter(code => code.includes("-"))
 
 export const localeName = (localeCode: LocaleCode) => localesNames[localeCode]
